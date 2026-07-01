@@ -1,42 +1,21 @@
 <template>
-  <div id="header">
-    <div id="logo">最美杭州<i class="iconfont icon-hangzhouxihu2"></i></div>
-    <i class="iconfont icon-hangzhouxihu"></i>
-  </div>
-  <div class="section">
-    <div class="sec1">
-      <p id="sign">用户注册</p>
-      <router-link to="/login">已有帐号？去登录</router-link>
+  <div class="page">
+    <div class="bg"></div>
+    <router-link to="/index" class="logo">最美杭州</router-link>
+    <div class="card">
+      <h2>创建账户</h2>
+      <p class="sub">请填写以下信息完成注册</p>
+      <p v-if="msg" class="msg" :class="msgClass">{{ msg }}</p>
+      <form @submit.prevent="handleReg">
+        <div class="row"><label>用户名</label><input type="text" v-model="form.username" placeholder="请输入用户名" required /></div>
+        <div class="row"><label>密 码</label><input type="password" v-model="form.password" placeholder="请输入密码" required /></div>
+        <div class="row"><label>邮 箱</label><input type="email" v-model="form.email" placeholder="请输入邮箱" required /></div>
+        <div class="row"><label>性 别</label><div class="radio-group"><label><input type="radio" v-model="form.sex" value="男" checked /> 男</label><label><input type="radio" v-model="form.sex" value="女" /> 女</label></div></div>
+        <div class="row"><label>年 龄</label><input type="number" v-model.number="form.age" placeholder="请输入年龄" min="1" max="120" required /></div>
+        <button type="submit">注 册</button>
+      </form>
+      <router-link to="/login" class="switch">已有账号？去登录 →</router-link>
     </div>
-    <form @submit.prevent="handleReg">
-      <div>
-        <label for="username">用户名：</label>
-        <input type="text" id="username" v-model="form.username" required />
-      </div>
-      <div>
-        <label for="password">密 码：</label>
-        <input type="password" id="password" v-model="form.password" required />
-      </div>
-      <div>
-        <label for="email">邮 箱：</label>
-        <input type="email" id="email" v-model="form.email" required />
-      </div>
-      <div>
-        <label id="genderLabel">性 别：</label>
-        <span>
-          <input type="radio" id="male" v-model="form.sex" value="男" checked />
-          <label for="male">男</label>
-          <input type="radio" id="female" v-model="form.sex" value="女" />
-          <label for="female">女</label>
-        </span>
-      </div>
-      <div>
-        <label for="age">年 龄：</label>
-        <input type="number" id="age" v-model.number="form.age" min="1" max="120" required />
-      </div>
-      <input type="submit" value="注册" id="mybutton" />
-    </form>
-    <div v-if="msg" :style="msgStyle">{{ msg }}</div>
   </div>
 </template>
 
@@ -48,112 +27,52 @@ import api from '@/api'
 const router = useRouter()
 const form = ref({ username: '', password: '', email: '', sex: '男', age: '' })
 const msg = ref('')
-const msgColor = ref('')
+const msgOk = ref(false)
 
-const msgStyle = computed(() => ({
-  color: msgColor.value,
-  fontWeight: 'bold',
-  fontSize: '16px',
-  textAlign: 'center',
-}))
-
-const shakeMsg = (text, color) => {
-  msg.value = text
-  msgColor.value = color
-}
+const msgClass = computed(() => msgOk.value ? 'ok' : 'err')
 
 const handleReg = async () => {
   const { username, password, email, age } = form.value
   if (!username.trim() || !password.trim() || !email.trim() || !age) {
-    shakeMsg('请完整输入所有内容！', 'red')
-    return
+    msg.value = '请填写所有必填项'; msgOk.value = false; return
   }
   try {
     const res = await api.post('/users', {
-      username: username.trim(),
-      password: password.trim(),
-      email: email.trim(),
-      sex: form.value.sex,
-      age: form.value.age,
+      username: username.trim(), password: password.trim(),
+      email: email.trim(), sex: form.value.sex, age: form.value.age,
     })
     if (res.data.ok === 1) {
-      let count = 3
-      shakeMsg(`注册成功！即将进入登陆页面...${count}`, 'red')
+      msgOk.value = true
+      let count = 3; msg.value = `注册成功！${count}秒后跳转...`
       const interval = setInterval(() => {
-        count--
-        if (count > 0) {
-          msg.value = `注册成功！即将进入登陆页面...${count}`
-        } else {
-          clearInterval(interval)
-          router.push('/login')
-        }
+        count--; if (count > 0) { msg.value = `注册成功！${count}秒后跳转...` }
+        else { clearInterval(interval); router.push('/login') }
       }, 1000)
-    } else {
-      alert('注册失败')
-    }
-  } catch (err) {
-    alert('网络错误，请检查后端是否运行')
-  }
+    } else { msg.value = '注册失败，请重试'; msgOk.value = false }
+  } catch { msg.value = '网络错误，请检查后端'; msgOk.value = false }
 }
 </script>
 
 <style scoped>
-#header { position: relative; }
-#header #logo {
-  height: 80px;
-  border: 1px solid;
-  font-family: feilong;
-  font-size: 80px;
-  text-indent: 70px;
-  text-shadow: 5px 5px 5px rgb(29, 108, 161);
-  background-image: url('/imgs/hangzhou.jpg');
-  background-size: cover;
-  background-position: center;
-}
-#header #logo i { font-size: 80px; }
-#header > i {
-  font-size: 80px;
-  color: #ac3333;
-  position: absolute;
-  top: 0;
-  right: 100px;
-}
-.section {
-  width: 50%;
-  margin: 20px auto;
-  border: 1px solid;
-  margin-bottom: 30px;
-  border-radius: 10px;
-}
-.section .sec1 {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-.section .sec1 p { font-size: 25px; font-weight: bold; }
-.section .sec1 a { color: blue; }
-.section form {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-.section form div {
-  width: 50%;
-  height: 50px;
-  display: flex;
-  align-items: center;
-}
-.section form div > label {
-  width: 30%;
-  font-size: 20px;
-  text-align: center;
-}
-.section form div > input { flex: 1; height: 30px; }
-.section form div:nth-child(4) input { flex: none; width: 20%; }
-.section form > input {
-  width: 100px;
-  height: 40px;
-  margin-bottom: 20px;
-  margin-top: 20px;
-}
+.page { min-height: 100vh; display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden; }
+.bg { position: fixed; inset: 0; background: linear-gradient(135deg, #0f0c29, #302b63, #24243e); z-index: 0; }
+.logo { position: fixed; top: 28px; left: 40px; font-family: feilong, serif; font-size: 32px; color: rgba(255,255,255,0.9); text-decoration: none; z-index: 10; text-shadow: 0 2px 10px rgba(0,0,0,0.3); }
+.card { position: relative; z-index: 1; width: 440px; background: rgba(255,255,255,0.97); border-radius: 20px; padding: 40px 36px 32px; box-shadow: 0 20px 60px rgba(0,0,0,0.3); text-align: center; }
+.card h2 { font-family: 'Noto Serif SC', serif; font-size: 24px; color: #1a1a2e; margin-bottom: 6px; }
+.sub { font-size: 14px; color: #aaa; margin-bottom: 20px; }
+.msg { font-size: 14px; margin-bottom: 14px; min-height: 20px; }
+.msg.ok { color: #27ae60; }
+.msg.err { color: #e74c3c; }
+form { text-align: left; }
+.row { display: flex; align-items: center; margin-bottom: 14px; }
+.row > label:first-child { width: 60px; font-size: 14px; color: #555; flex-shrink: 0; text-align: right; padding-right: 10px; }
+.row input[type="text"], .row input[type="password"], .row input[type="email"], .row input[type="number"] { flex: 1; padding: 10px 14px; border: 2px solid #eee; border-radius: 10px; font-size: 14px; outline: none; font-family: inherit; background: #fafbfc; color: #333; transition: all 0.3s; }
+.row input:focus { border-color: #302b63; background: #fff; box-shadow: 0 0 0 4px rgba(48,43,99,0.08); }
+.radio-group { display: flex; gap: 20px; flex: 1; }
+.radio-group label { font-size: 14px; color: #555; cursor: pointer; }
+.radio-group input { accent-color: #302b63; margin-right: 4px; }
+button[type="submit"] { width: 100%; padding: 13px; background: #302b63; color: #fff; border: none; border-radius: 10px; font-size: 16px; font-weight: 500; cursor: pointer; font-family: inherit; letter-spacing: 2px; transition: all 0.3s; margin-top: 6px; }
+button[type="submit"]:hover { background: #24243e; transform: translateY(-1px); box-shadow: 0 6px 20px rgba(48,43,99,0.3); }
+.switch { display: block; margin-top: 18px; color: #302b63; text-decoration: none; font-size: 14px; font-weight: 500; }
+.switch:hover { color: #24243e; text-decoration: underline; }
 </style>
