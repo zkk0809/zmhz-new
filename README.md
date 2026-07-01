@@ -39,7 +39,11 @@ npm run build
 
 ## 后端依赖
 
-本项目需要后端 API 服务运行在 `http://localhost:3000`，包含以下接口：
+本项目需要后端 API 服务运行在 `http://localhost:3000`。
+
+后端项目仓库：**https://github.com/zkk0809/zmhz**（位于 `zmhz服务器/` 目录）
+
+包含以下接口：
 
 | 接口 | 方法 | 说明 |
 |------|------|------|
