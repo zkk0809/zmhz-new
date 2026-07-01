@@ -1,0 +1,121 @@
+<template>
+  <AppHeader />
+  <div class="section animated pulse">
+    <ul>
+      <li :class="{ active: activeTab === 0 }" @click="activeTab = 0">杭州景点</li>
+      <li :class="{ active: activeTab === 1 }" @click="activeTab = 1">杭州美食</li>
+      <li :class="{ active: activeTab === 2 }" @click="activeTab = 2">旅游攻略</li>
+    </ul>
+    <ol>
+      <li v-show="activeTab === 0">
+        <img src="/imgs/xihu.jpg" alt="" />
+        <p>西湖：杭州的标志性景点，被誉为"人间天堂"。西湖风景区包括西湖本身和周边的苏堤、白堤、断桥等景点，是杭州最著名的旅游景点之一。</p>
+        <img src="/imgs/lys.jpg" alt="" />
+        <p>灵隐寺：位于杭州市西湖区灵隐街，是中国佛教禅宗的发源地之一。灵隐寺建于东晋时期，历经多次修缮和扩建，现为国家AAAAA级旅游景区。</p>
+        <img src="/imgs/qdh.jpg" alt="" />
+        <p>千岛湖：位于杭州市淳安县，是中国最大的人工湖之一。千岛湖风景区包括千岛湖本身和周边的千岛群岛、千岛湖大峡谷等景点，是杭州著名的旅游胜地之一。</p>
+        <img src="/imgs/lft.jpg" alt="" />
+        <p>雷峰塔：位于杭州市西湖区岳王庙，是中国古代建筑的代表之一。雷峰塔建于南宋时期，历经多次修缮和重建，现为国家AAAAA级旅游景区。</p>
+      </li>
+      <li v-show="activeTab === 1">
+        <img src="/imgs/xhcy.jfif" alt="" />
+        <p>西湖醋鱼：这是杭州的传统名菜之一，以西湖醋为调料，加上鲜嫩的鱼肉，口感酸甜可口。</p>
+        <img src="/imgs/ljxr.jpg" alt="" />
+        <p>龙井虾仁：这是一道以龙井茶和虾仁为主要原料的杭州名菜，虾仁鲜嫩，茶香浓郁，是一道别具特色的美食。</p>
+        <img src="/imgs/ybx.jfif" alt="" />
+        <p>油爆虾是杭州的一道著名美食，也是浙江省的传统名菜之一。它的特点是虾肉鲜嫩，口感酥脆，外表金黄，香气扑鼻，是一道非常受欢迎的美食。</p>
+        <img src="/imgs/nmj.jpg" alt="" />
+        <p>糯米鸡：这是一种杭州传统小吃，由糯米、鸡肉、腊肠等制成，口感香糯可口。</p>
+      </li>
+      <li v-show="activeTab === 2">
+        <p>如果，把杭州比喻成一个人的话，那一定是一个有着明亮双眸、读过一些诗书、柔声细语、总是微笑偶尔落泪，且待字闺中的大小姐。她有得天独厚却不张扬的美貌，浓妆淡抹总相宜的西湖、清幽的九溪十八涧、闹中取静的西溪湿地、闲云野鹤般存在的西泠印社，让几乎每一个来过的人都称赞不绝；</p>
+
+        <p class="h4">出行前必备：</p>
+        <p>电器类：手机、自拍杆、相机</p>
+        <p>生活用品：防晒霜、水乳面霜、卸妆油、洗面奶、面膜、化妆品</p>
+        <p>衣服：根据天气带衣服、外套、运动鞋</p>
+        <p>药品：肠胃药、驱蚊水、感冒药、创可贴</p>
+        <p>其他：口罩、水杯、雨具、湿巾等</p>
+
+        <p class="h4">杭州交通：</p>
+        <p>机场：巴士候机楼到达厅8号门20元／人</p>
+        <p>杭州站（城站）：到西湖坐出租只要10分钟</p>
+        <p>杭州东站：以高铁动车为主，离市区比较近</p>
+        <p>杭州南站：离市区较远，去萧山的话可以选这里</p>
+
+        <p class="h4">杭州必玩景点</p>
+        <p>①孤山路 在杭州西湖最像海的转角，等一场浪漫</p>
+        <p>②苏堤 苏堤适合情侣，家人，有一句话是这么说的，一起走完苏堤就能永远不分手</p>
+        <p>③宝石山山顶可以俯瞰西湖全景，看日出日落绝</p>
+        <p>④浴鹄湾杭州本地人很喜欢去的地方，人少景美</p>
+        <p>⑤法喜寺求姻缘超灵的网红寺庙</p>
+        <p>⑥满陇桂雨秋天杭城最诱人的地方，桂花香气四溢山谷</p>
+        <p>⑦小河直街"上有天堂，下有苏杭"这里是老杭城的缩影</p>
+        <p>⑧龙坞茶园逃离城市的喧嚣，误入世外桃源</p>
+        <p>⑨良渚公园 风景很不错，还有小鹿，误入宫崎骏漫画</p>
+        <p>⑩晓书馆 杭州最美图书馆</p>
+
+        <p class="h4">3天2晚游玩路线</p>
+        <p>Day1：满陇桂雨一花港观鱼一苏堤一孤山路</p>
+        <p>Day2：法喜寺﹣北山街﹣宝石山小河直街</p>
+        <p>Day3：良渚古城遗址公园﹣﹣良渚文化村</p>
+      </li>
+    </ol>
+  </div>
+</template>
+
+<script setup>
+import { ref } from 'vue'
+import AppHeader from '@/components/AppHeader.vue'
+
+const activeTab = ref(0)
+</script>
+
+<style scoped>
+.section {
+  width: 70%;
+  height: 80vh;
+  margin: 0 auto;
+  display: flex;
+}
+.section ul {
+  width: 20%;
+  height: 100%;
+  list-style: none;
+  flex-shrink: 0;
+}
+.section ul li.active { background-color: rgb(231 237 238); }
+.section ul li {
+  width: 100%;
+  height: 50px;
+  border-bottom: 1px solid;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 20px;
+  border-left: 1px solid;
+  cursor: pointer;
+}
+.section ol {
+  width: 80%;
+  flex: 1;
+  height: 100%;
+  list-style: none;
+  position: relative;
+  overflow-y: auto;
+}
+.section ol li {
+  width: 100%;
+  background-color: rgb(231 237 238);
+  padding: 10px;
+}
+.section ol li p { padding: 10px 0; text-indent: 2em; }
+.section ol li .h4 { font-weight: bold; }
+.section ol li img {
+  width: 82%;
+  height: 300px;
+  display: block;
+  margin: 10px auto;
+  object-fit: cover;
+}
+</style>
